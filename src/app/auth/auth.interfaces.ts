@@ -23,7 +23,8 @@ export interface UserData {
     user_pass: string;   
     user_email: string;
     active: boolean;
-    endpoints?: Endpoint[];  
+    endpoints?: Endpoint[];
+    staff?: Staff[];  
 };
 
 export interface Assignment extends UserId, RoleId, OrganizationId {
@@ -68,4 +69,13 @@ export interface OrganizationId {
 
 export interface Organization extends OrganizationId {
     organization_name: string;
+};
+
+export interface Staff extends OrganizationId{
+    staff_id?: number;
+    user_id?: number;
+    starts_at?: Date;
+    expires_at?: Date;
+    revoked_at?: Date;
+    accepted_at?: Date;
 };

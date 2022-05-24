@@ -5,7 +5,7 @@ import { tap } from 'rxjs/operators';
 import {
     Entity, EntityId,
     Role, RoleId,
-    Organization, OrganizationId, App, AppId, User, UserId, Endpoint, UserData, Assignment
+    Organization, OrganizationId, App, AppId, User, UserId, Endpoint, UserData, Assignment, Staff
 } from './auth.interfaces';
 
 const baseURL = 'http://localhost:3000/api';
@@ -174,6 +174,14 @@ export class AuthAPIService {
 
     deleteEndpoint(id: Endpoint): Observable<Endpoint> {
         return this.http.delete<Endpoint>(`${baseURL}/users/${id.user_id}/endpoints/${id.endpoint_id}`)
+    }
+
+    createStaff(staff: Staff): Observable<Staff> {
+        return this.http.post<Staff>(`${baseURL}/users/${staff.user_id}/staff`, staff)
+    }
+
+    dropStaff(id: Staff): Observable<Staff> {
+        return this.http.delete<Staff>(`${baseURL}/users/${id.user_id}/staff/${id.staff_id}`)
     }
 
     ///////////////////////////////////////////////////////////////////

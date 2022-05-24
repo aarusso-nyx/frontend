@@ -31,7 +31,6 @@
     </mat-tab>
     <mat-tab label="Endpoints"> 
         <div >
-            <span>dentro</span>
             <input #endpoint type="text" placeholder="">
             <button (click)="createEndpoint(endpoint.value)">
                 <mat-icon>add</mat-icon>
@@ -53,14 +52,14 @@
                 </mat-option>
             </mat-select>
     
-            <button mat-raised-button color="primary" (click)="makeStaff(org.value)">
+            <button mat-raised-button color="primary" (click)="createStaff(org.value)">
                 <mat-icon>save</mat-icon>
             </button>
-        </mat-card>
+        </mat-card> 
     
         <mat-list>
-            <mat-list-item *ngFor="let s of (staff$ | async)">
-                {{ s | json }}
+            <mat-list-item *ngFor="let s of user?.staff">
+                {{ s | json}}
 
                 <button mat-icon-button (click)="dropStaff(s)">
                     <mat-icon>delete</mat-icon>
@@ -85,4 +84,3 @@
 
 
 
-<span>Antes</span>
