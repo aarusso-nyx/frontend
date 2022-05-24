@@ -79,3 +79,10 @@ export interface Staff extends OrganizationId{
     revoked_at?: Date;
     accepted_at?: Date;
 };
+
+export interface License extends OrganizationId, EntityId, AppId{
+    license_id: 6,
+    starts_at: Date,
+    expires_at: Date,
+    revoked_at: Date
+};

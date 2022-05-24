@@ -87,6 +87,7 @@ import { UserListComponent } from './auth/users/user-list/user-list.component';
 import { UserDetailComponent } from './auth/users/user-detail/user-detail.component';
 import { OrganizationDetailComponent } from './auth/organization/organization-detail/organization-detail.component';
 import { OrganizationListComponent } from './auth/organization/organization-list/organization-list.component';
+import { LicenseListComponent } from './auth/licenses/license-list/license-list.component';
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -105,6 +106,7 @@ import { OrganizationListComponent } from './auth/organization/organization-list
     UserDetailComponent,
     OrganizationDetailComponent,
     OrganizationListComponent,
+    LicenseListComponent,
   ],
   imports: [
     AppRoutingModule,

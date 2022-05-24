@@ -5,6 +5,7 @@ import { AppDetailComponent } from './auth/apps/app-detail/app-detail.component'
 import { AppListComponent } from './auth/apps/app-list/app-list.component';
 import { EntityDetailComponent } from './auth/entites/entity-detail/entity-detail.component';
 import { EntityListComponent } from './auth/entites/entity-list/entity-list.component';
+import { LicenseListComponent } from './auth/licenses/license-list/license-list.component';
 import { OrganizationDetailComponent } from './auth/organization/organization-detail/organization-detail.component';
 import { OrganizationListComponent } from './auth/organization/organization-list/organization-list.component';
 import { RoleDetailComponent } from './auth/roles/role-detail/role-detail.component';
@@ -65,6 +66,10 @@ const routes: Routes = [
           component: UserDetailComponent,
       },
   ]
+},
+{
+  path:      'licenses',
+  component: LicenseListComponent,
 },
 {
   path: 'organizations',

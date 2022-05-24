@@ -5,7 +5,7 @@ import { tap } from 'rxjs/operators';
 import {
     Entity, EntityId,
     Role, RoleId,
-    Organization, OrganizationId, App, AppId, User, UserId, Endpoint, UserData, Assignment, Staff
+    Organization, OrganizationId, App, AppId, User, UserId, Endpoint, UserData, Assignment, Staff, License
 } from './auth.interfaces';
 
 const baseURL = 'http://localhost:3000/api';
@@ -128,6 +128,15 @@ export class AuthAPIService {
 
     deleteApp(id: AppId): Observable<App> {
         return this.http.delete<App>(`${baseURL}/apps/${id.app_id}`)
+            .pipe(tap(() => this.refreshApps()));
+    }
+
+    getLicense(id: AppId): Observable<License> {
+        return this.http.get<License>(`${baseURL}/apps/${id.app_id}/licenses`);
+    }
+
+    createLicense(app: App): Observable<License> {
+        return this.http.post<License>(`${baseURL}/apps`, app)
             .pipe(tap(() => this.refreshApps()));
     }
 

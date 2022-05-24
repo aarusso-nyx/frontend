@@ -54,8 +54,8 @@ export class UserDetailComponent implements OnInit {
     });
   }
 
-  //   ///////////////////////////////////////////////////////////////////////////
-  //   ///////////////////////////////////////////////////////////////////////////        
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////        
   save(e: User): void {
     this.auth.updateUser(e)
       .subscribe(() => this.reload());
@@ -73,13 +73,11 @@ export class UserDetailComponent implements OnInit {
       .subscribe(() => this.reload());
   }
 
-
-  createStaff(o: Organization): void {
-    this.auth.createStaff({organization_id: o.organization_id, user_id:this.user?.user_id})
-    .subscribe();
-      // .subscribe(dados => this.staff$ = dados);
+  createStaff(org: Organization): void {
+    console.log(org);
+    this.auth.createStaff({organization_id: org.organization_id, user_id:this.user?.user_id})
+    .subscribe(() => this.reload());
   }
-
 
   dropStaff(s: Staff): void {
     this.auth.dropStaff(s)
