@@ -1,44 +1,88 @@
-<form [formGroup]="user_">
+<mat-tab-group>
+    <mat-tab label="Detalhes"> 
+        <form [formGroup]="user_">
 
-    <p> User ID: {{ user?.user_id }}</p>
+            <p> User ID: {{ user?.user_id }}</p>
+        
+            <mat-form-field>
+                <input matInput type="text" placeholder="Usuario" formControlName="user_name">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput type="email" placeholder="Email" formControlName="user_email">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput type="text" placeholder="Pass" formControlName="user_pass">
+            </mat-form-field>
+            <mat-checkbox formControlName="active">Active</mat-checkbox>
+        
+        
+            <button mat-raised-button color="primary" (click)="save(user_.value)">
+                <mat-icon>save</mat-icon>
+            </button>
+        
+            <button mat-raised-button color="warn" (click)="router.navigate(['/users'])">
+                <mat-icon>cancel</mat-icon>
+            </button>
+        
+            <button mat-raised-button color="accent" (click)="refresh()">
+                <mat-icon>refresh</mat-icon>
+            </button>
+        </form>
+    </mat-tab>
+    <mat-tab label="Endpoints"> 
+        <div >
+            <span>dentro</span>
+            <input #endpoint type="text" placeholder="">
+            <button (click)="createEndpoint(endpoint.value)">
+                <mat-icon>add</mat-icon>
+            </button>
+        
+            <div *ngFor="let ep of user?.endpoints" class="container">
+                <span>{{ ep.endpoint }}</span>
+                <button (click)="deleteEndpoint(ep)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="Organizações"> 
+        <mat-card>
+            <mat-select #org>
+                <mat-option *ngFor="let org of (orgs$|async)" [value]="org">
+                    {{ org.organization_name }}
+                </mat-option>
+            </mat-select>
+    
+            <button mat-raised-button color="primary" (click)="makeStaff(org.value)">
+                <mat-icon>save</mat-icon>
+            </button>
+        </mat-card>
+    
+        <mat-list>
+            <mat-list-item *ngFor="let s of (staff$ | async)">
+                {{ s | json }}
 
-    <mat-form-field>
-        <input matInput type="text" placeholder="Usuario" formControlName="user_name">
-    </mat-form-field>
-    <mat-form-field>
-        <input matInput type="email" placeholder="Email" formControlName="user_email">
-    </mat-form-field>
-    <mat-form-field>
-        <input matInput type="text" placeholder="Pass" formControlName="user_pass">
-    </mat-form-field>
-    <mat-checkbox formControlName="active">Active</mat-checkbox>
+                <button mat-icon-button (click)="dropStaff(s)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-list-item>
 
 
-    <button mat-raised-button color="primary" (click)="save(user_.value)">
-        <mat-icon>save</mat-icon>
-    </button>
+        </mat-list>
 
-    <button mat-raised-button color="warn" (click)="router.navigate(['/users'])">
-        <mat-icon>cancel</mat-icon>
-    </button>
 
-    <button mat-raised-button color="accent" (click)="refresh()">
-        <mat-icon>refresh</mat-icon>
-    </button>
-</form>
+    </mat-tab>
+  </mat-tab-group>
+
+
+
+
+
+
+
+
+
+
+
 
 <span>Antes</span>
-<div >
-    <span>dentro</span>
-    <input #endpoint type="text" placeholder="">
-    <button (click)="createEndpoint(endpoint.value)">
-        <mat-icon>add</mat-icon>
-    </button>
-
-    <div *ngFor="let ep of user?.endpoints" class="container">
-        <span>{{ ep.endpoint }}</span>
-        <button (click)="deleteEndpoint(ep)">
-            <mat-icon>delete</mat-icon>
-        </button>
-    </div>
-</div>
