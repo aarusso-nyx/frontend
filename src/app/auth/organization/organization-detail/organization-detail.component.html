@@ -1,6 +1,103 @@
 <div *ngIf="(organization$ | async) as org">
     <h1>Organization</h1>
     <h2>{{ org.organization_name }}</h2>
+
+    <mat-tab-group>
+        <mat-tab label="Detalhes"></mat-tab>
+        <mat-tab label="Staff">
+            <p>Lista de Staff desse organization</p>
+            <p>Cada Item User tem botão de aceitar/rejeitar se solicitado</p>
+            <p>e renovar / revogar se já aceito</p>
+        </mat-tab>
+        <mat-tab label="Assigns">
+
+            <mat-card>
+                <mat-card-header>
+                    <h2>Assignments:</h2>
+                </mat-card-header>
+        
+                <mat-card-content>
+                    <form [formGroup]="assign">
+                        <mat-card fxLayout="column">
+                            <div fxFlex fxLayout="row" fxLayoutAlign="space-between">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Pessoas</mat-label>
+                                    <mat-select formControlName="user_id">
+                                        <mat-option *ngFor="let e of (users$ | async)" [value]="e.user_id">{{ e.user_name }}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                 
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Roles</mat-label>
+                                    <mat-select formControlName="role_id">
+                                        <mat-option *ngFor="let e of (roles$ | async)" [value]="e.role_id">{{ e.role_desc }}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+        
+                                <button mat-raised-button color="primary" (click)="saveAssign(assign.value)">
+                                    <mat-icon>save</mat-icon>
+                                </button>
+                            </div>
+                            <div fxFlex fxLayout="row" fxLayoutAlign="space-between">
+                           
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Start</mat-label>
+                                    <input matInput [matDatepicker]="starts" formControlName="starts_at">
+                                    <mat-hint>MM/DD/YYYY</mat-hint>
+                                    <mat-datepicker-toggle matSuffix [for]="starts"></mat-datepicker-toggle>
+                                    <mat-datepicker #starts></mat-datepicker>
+                                  </mat-form-field>
+        
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Expires</mat-label>
+                                    <input matInput [matDatepicker]="expires" formControlName="expires_at">
+                                    <mat-hint>MM/DD/YYYY</mat-hint>
+                                    <mat-datepicker-toggle matSuffix [for]="expires"></mat-datepicker-toggle>
+                                    <mat-datepicker #expires></mat-datepicker>
+                                  </mat-form-field>
+        
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Revoked At</mat-label>
+                                    <input matInput [matDatepicker]="revoke" formControlName="revoked_at">
+                                    <mat-hint>MM/DD/YYYY</mat-hint>
+                                    <mat-datepicker-toggle matSuffix [for]="revoke"></mat-datepicker-toggle>
+                                    <mat-datepicker #revoke></mat-datepicker>
+                                  </mat-form-field>
+                            </div>
+                        </mat-card>
+                    </form>
+        
+                    <mat-card>
+                        <mat-list>
+                            <mat-list-item *ngFor="let a of (assignments$ | async)">
+                                <mat-icon mat-list-icon>person</mat-icon>
+                                <div fxFlex>
+                                    <h4 mat-line>{{ a.user_name }}</h4>
+                                    <p mat-line>{{ a.role_desc }}</p>
+                                </div>
+                                
+                                <button mat-icon-button (click)="delAssign(a)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                                
+                                <button mat-icon-button (click)="editAssign(a)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <mat-divider></mat-divider>
+                            </mat-list-item>
+                        </mat-list>
+                    </mat-card>
+                </mat-card-content>
+            </mat-card>
+        </mat-tab>
+
+        <mat-tab label="Licenses">
+            Select com os Apps disponíveis e o botão para solicitar licença desse org, dessa entity para esse app
+            
+            <p>Lista de Licenses desse organization</p>
+        </mat-tab>
+    </mat-tab-group>
+
     <mat-card>
         <mat-card-content>
             <form [formGroup]="organization">
@@ -29,82 +126,4 @@
         </mat-card-actions>
     </mat-card>
 
-    <mat-card>
-        <mat-card-header>
-            <h2>Assignments:</h2>
-        </mat-card-header>
-
-        <mat-card-content>
-            <form [formGroup]="assign">
-                <mat-card fxLayout="column">
-                    <div fxFlex fxLayout="row" fxLayoutAlign="space-between">
-                        <mat-form-field appearance="fill">
-                            <mat-label>Pessoas</mat-label>
-                            <mat-select formControlName="user_id">
-                                <mat-option *ngFor="let e of (users$ | async)" [value]="e.user_id">{{ e.user_name }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-         
-                        <mat-form-field appearance="fill">
-                            <mat-label>Roles</mat-label>
-                            <mat-select formControlName="role_id">
-                                <mat-option *ngFor="let e of (roles$ | async)" [value]="e.role_id">{{ e.role_desc }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-                        <button mat-raised-button color="primary" (click)="saveAssign(assign.value)">
-                            <mat-icon>save</mat-icon>
-                        </button>
-                    </div>
-                    <div fxFlex fxLayout="row" fxLayoutAlign="space-between">
-                   
-                        <mat-form-field appearance="fill">
-                            <mat-label>Start</mat-label>
-                            <input matInput [matDatepicker]="starts" formControlName="starts_at">
-                            <mat-hint>MM/DD/YYYY</mat-hint>
-                            <mat-datepicker-toggle matSuffix [for]="starts"></mat-datepicker-toggle>
-                            <mat-datepicker #starts></mat-datepicker>
-                          </mat-form-field>
-
-                        <mat-form-field appearance="fill">
-                            <mat-label>Expires</mat-label>
-                            <input matInput [matDatepicker]="expires" formControlName="expires_at">
-                            <mat-hint>MM/DD/YYYY</mat-hint>
-                            <mat-datepicker-toggle matSuffix [for]="expires"></mat-datepicker-toggle>
-                            <mat-datepicker #expires></mat-datepicker>
-                          </mat-form-field>
-
-                        <mat-form-field appearance="fill">
-                            <mat-label>Revoked At</mat-label>
-                            <input matInput [matDatepicker]="revoke" formControlName="revoked_at">
-                            <mat-hint>MM/DD/YYYY</mat-hint>
-                            <mat-datepicker-toggle matSuffix [for]="revoke"></mat-datepicker-toggle>
-                            <mat-datepicker #revoke></mat-datepicker>
-                          </mat-form-field>
-                    </div>
-                </mat-card>
-            </form>
-
-            <mat-card>
-                <mat-list>
-                    <mat-list-item *ngFor="let a of (assignments$ | async)">
-                        <mat-icon mat-list-icon>person</mat-icon>
-                        <div fxFlex>
-                            <h4 mat-line>{{ a.user_name }}</h4>
-                            <p mat-line>{{ a.role_desc }}</p>
-                        </div>
-                        
-                        <button mat-icon-button (click)="delAssign(a)">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                        
-                        <button mat-icon-button (click)="editAssign(a)">
-                            <mat-icon>edit</mat-icon>
-                        </button>
-                        <mat-divider></mat-divider>
-                    </mat-list-item>
-                </mat-list>
-            </mat-card>
-        </mat-card-content>
-    </mat-card>
 </div>
