@@ -1,20 +1,30 @@
-<form [formGroup]="app">
+<p>App ID: {{ app.value.app_id }}</p>
 
-    <p>App ID: {{ app.value.app_id }}</p>
+<mat-tab-group>
+    <mat-tab label="App">
+        <form [formGroup]="app">
+            <mat-form-field>
+                <input matInput type="text" placeholder="Nome da Entidade" formControlName="app_name">
+            </mat-form-field>
+        
+            <button mat-raised-button color="primary" (click)="save(app.value)">
+                <mat-icon>save</mat-icon>
+            </button>
+        
+            <button mat-raised-button color="warn" (click)="router.navigate(['/apps'])">
+                <mat-icon>cancel</mat-icon>
+            </button>
+        
+            <button mat-raised-button color="accent" (click)="refresh()">
+                <mat-icon>refresh</mat-icon>
+            </button>
+        </form> 
+    </mat-tab>
+    <mat-tab label="Roles"></mat-tab>
+    <mat-tab label="Licenses"></mat-tab>
 
-    <mat-form-field>
-        <input matInput type="text" placeholder="Nome da Entidade" formControlName="app_name">
-    </mat-form-field>
 
-    <button mat-raised-button color="primary" (click)="save(app.value)">
-        <mat-icon>save</mat-icon>
-    </button>
+</mat-tab-group>
 
-    <button mat-raised-button color="warn" (click)="router.navigate(['/apps'])">
-        <mat-icon>cancel</mat-icon>
-    </button>
 
-    <button mat-raised-button color="accent" (click)="refresh()">
-        <mat-icon>refresh</mat-icon>
-    </button>
-</form> 
+

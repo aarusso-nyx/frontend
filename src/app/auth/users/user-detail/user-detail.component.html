@@ -45,7 +45,7 @@
             </div>
         </div>
     </mat-tab>
-    <mat-tab label="Organizações"> 
+    <mat-tab label="Staff"> 
         <mat-card>
             <mat-select #org>
                 <mat-option *ngFor="let org of (orgs$|async)" [value]="org">
@@ -55,6 +55,7 @@
     
             <button mat-raised-button color="primary" (click)="makeStaff(org.value)">
                 <mat-icon>save</mat-icon>
+                Solicitar
             </button>
         </mat-card>
     
@@ -66,23 +67,16 @@
                     <mat-icon>delete</mat-icon>
                 </button>
             </mat-list-item>
-
-
         </mat-list>
 
 
     </mat-tab>
+
+    <mat-tab label="Assigns">
+        <mat-list>
+            <mat-list-item *ngFor="let s of (assigns$ | async)">
+                {{ s | json }}
+            </mat-list-item>
+        </mat-list>    
+    </mat-tab>
   </mat-tab-group>
-
-
-
-
-
-
-
-
-
-
-
-
-<span>Antes</span>

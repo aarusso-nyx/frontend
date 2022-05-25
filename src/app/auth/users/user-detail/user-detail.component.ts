@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { AuthAPIService } from '../../auth.service';
-import { Endpoint, Organization, User, UserId } from '../../auth.interfaces';
+import { Assignment, Endpoint, Organization, User, UserId } from '../../auth.interfaces';
 import omit from 'lodash-es/omit';
 
 
@@ -19,6 +19,7 @@ export class UserDetailComponent implements OnInit {
   user: User | undefined;
   orgs$ = this.auth.organizations$;
   staff$ = new BehaviorSubject<Organization[]>([]);
+  assigns$ = new BehaviorSubject<Assignment[]>([]);
 
   // O modelo no formulário que existe só aqui no frontend
   user_: FormGroup = this.fb.group({
@@ -46,7 +47,7 @@ export class UserDetailComponent implements OnInit {
       this.route.params.subscribe(params => {
         this.auth.getUser(params as UserId).subscribe(user => {
           this.user = user;
-          this.user_.setValue(omit(user, 'endpoints'));
+          this.user_.setValue(omit(user, ['endpoints', 'assigns', 'staff']));
         });
       });
     }
