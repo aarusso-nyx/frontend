@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthAPIService } from '../../auth.service';
-import { Assignment, Endpoint, Organization, Staff, User, UserId } from '../../auth.interfaces';
+import { Assignment, Endpoint, Organization, Staff, StaffReq, User, UserId } from '../../auth.interfaces';
 import omit from 'lodash-es/omit';
 
 
@@ -20,6 +20,7 @@ export class UserDetailComponent implements OnInit {
   orgs$ = this.auth.organizations$;
   staff$ = new BehaviorSubject<Organization[]>([]);
   assigns$ = new BehaviorSubject<Assignment[]>([]);
+  users$?: Observable<User[]>;
 
   // O modelo no formulário que existe só aqui no frontend
   user_: FormGroup = this.fb.group({
@@ -47,6 +48,7 @@ export class UserDetailComponent implements OnInit {
       this.route.params.subscribe(params => {
         this.auth.getUser(params as UserId).subscribe(user => {
           this.user = user;
+          console.log(user);
           this.user_.setValue(omit(user, ['endpoints', 'assigns', 'staff']));
         });
       });
@@ -72,9 +74,9 @@ export class UserDetailComponent implements OnInit {
       .subscribe(() => this.reload());
   }
 
-  createStaff(org: Organization): void {
-    console.log(org);
-    this.auth.createStaff({organization_id: org.organization_id, user_id:this.user?.user_id})
+  createStaff(s: StaffReq): void {
+    console.log(s);
+    this.auth.createStaff({organization_id: s.organization_id, user_id: this.user?.user_id})
     .subscribe(() => this.reload());
   }
 

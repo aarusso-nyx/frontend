@@ -30,19 +30,20 @@
         </form>
     </mat-tab>
     <mat-tab label="Endpoints"> 
-        <div >
-            <input #endpoint type="text" placeholder="">
-            <button (click)="createEndpoint(endpoint.value)">
-                <mat-icon>add</mat-icon>
-            </button>
-        
-            <div *ngFor="let ep of user?.endpoints" class="container">
-                <span>{{ ep.endpoint }}</span>
-                <button (click)="deleteEndpoint(ep)">
+        <input #endpoint type="text" placeholder="Endpoints">
+        <button (click)="createEndpoint(endpoint.value)">
+            <mat-icon>add</mat-icon>
+        </button>
+        <mat-list>
+            <mat-list-item *ngFor="let ep of user?.endpoints" class="container">
+               <!-- <span mat-line> {{ user?.user_name }} </span> -->
+               <span mat-line> {{ ep.endpoint }} </span> 
+
+                <button mat-icon-button (click)="deleteEndpoint(ep)">
                     <mat-icon>delete</mat-icon>
                 </button>
-            </div>
-        </div>
+            </mat-list-item>
+        </mat-list>
     </mat-tab>
     <mat-tab label="Staff"> 
         <mat-card>
@@ -60,7 +61,8 @@
     
         <mat-list>
             <mat-list-item *ngFor="let s of user?.staff">
-                {{ s | json}}
+               <span mat-line> {{ user?.user_name }} </span>
+               <span mat-line> Staff ID: {{ s.staff_id}}</span> 
 
                 <button mat-icon-button (click)="dropStaff(s)">
                     <mat-icon>delete</mat-icon>

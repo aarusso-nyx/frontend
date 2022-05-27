@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthAPIService } from '../../auth.service';
 import { App, Assignment, License, Organization, OrganizationId, Role, Staff, User } from '../../auth.interfaces';
-
+import { pick } from 'lodash-es';
 
 @Component({
   templateUrl: './organization-detail.component.html',
@@ -45,68 +45,102 @@ export class OrganizationDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.id = params as OrganizationId;
-      
+
       this.assign.setValue({
         organization_id: this.id.organization_id,
         role_id: '',
         user_id: '',
         starts_at: new Date(),
         revoked_at: new Date(),
-        expires_at:  new Date(),
+        expires_at: new Date(),
 
       });
 
       this.organization$ = this.auth.getOrganization(this.id);
-       this.refresh();
-       this.refreshAss();
-
-       this.staff$ = this.auth.listStaff(this.id) 
-       this.licenses$ = this.auth.listLicense(this.id)
+      this.refresh();
+      this.refreshAss();
+      this.refreshStaff();
+      this.refreshLicense();
     });
   }
 
-    refresh(): void {
-      this.organization$?.subscribe(organization => {
-        this.organization.setValue(organization);
-      });
-    }
+  refresh(): void {
+    this.organization$?.subscribe(organization => {
+      this.organization.setValue(organization);
+    });
+  }
 
 
 
   //   ///////////////////////////////////////////////////////////////////////////
   //   ///////////////////////////////////////////////////////////////////////////        
-    save(e: Organization): void {
-      const id = this.id;
-      const data = {...this.id, ...e };
-      console.log({ e, id, data });
+  save(e: Organization): void {
+    const id = this.id;
+    const data = { ...this.id, ...e };
+    console.log({ e, id, data });
 
-      this.auth.createOrganization(data)
-        .subscribe(() => this.router.navigate(['/organizations']));
-    }
-
-    ///////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////// 
-    refreshAss(): void {
-      this.assignments$ = this.auth.listAssignment(this.id);
-    }
-
-    saveAssign(e: Assignment): void {
-      this.auth.createAssignment(e)
-        .subscribe(() => this.refreshAss());
-    }
-
-    editAssign(e: Assignment): void {
-      this.auth.updateAssignment(e)
-        .subscribe(() => this.refreshAss());
-    }
-
-    delAssign(e: Assignment): void {
-      this.auth.deleteAssignment(e)
-        .subscribe(() => this.refreshAss());
-    }
-
-
-
+    this.auth.createOrganization(data)
+      .subscribe(() => this.router.navigate(['/organizations']));
   }
+
+  ///////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////// 
+  refreshAss(): void {
+    this.assignments$ = this.auth.listAssignment(this.id);
+  }
+
+  saveAssign(e: Assignment): void {
+    this.auth.createAssignment(e)
+      .subscribe(() => this.refreshAss());
+  }
+
+  editAssign(e: Assignment): void {
+    this.auth.updateAssignment(e)
+      .subscribe(() => this.refreshAss());
+  }
+
+  delAssign(e: Assignment): void {
+    this.auth.deleteAssignment(e)
+      .subscribe(() => this.refreshAss());
+  }
+
+  ///////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////// 
+
+  refreshStaff() {
+    this.staff$ = this.auth.listStaff(this.id)
+  }
+
+  acceptStaff(s: Staff) {
+    const id = pick(s, ['staff_id', 'user_id', 'organization_id']);
+    this.auth.updateStaff({ ...id, accepted_at: new Date() })
+    .subscribe(() => this.refreshStaff())
+  }
+
+  renewStaff(s: Staff) {
+    const id = pick(s, ['staff_id', 'user_id', 'organization_id']);
+    this.auth.updateStaff({ ...id, expires_at: new Date() })
+      .subscribe(() => this.refreshStaff())
+  }
+
+  revokeStaff(s: Staff) {
+    const id = pick(s, ['staff_id', 'user_id', 'organization_id']);
+    this.auth.updateStaff({ ...id, revoked_at: new Date() })
+      .subscribe(() => this.refreshStaff())
+  }
+
+  dropStaff(s: Staff) {
+    this.auth.dropStaff(s)
+      .subscribe(() => this.refreshStaff())
+  }
+
+  ///////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////// 
+
+  refreshLicense() {
+    this.licenses$ = this.auth.listLicense(this.id)
+  }
+
+}
 
 

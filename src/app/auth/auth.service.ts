@@ -5,7 +5,7 @@ import { tap } from 'rxjs/operators';
 import {
     Entity, EntityId,
     Role, RoleId,
-    Organization, OrganizationId, App, AppId, User, UserId, Endpoint, UserData, Assignment, Staff, License
+    Organization, OrganizationId, App, AppId, User, UserId, Endpoint, UserData, Assignment, Staff, License, StaffReq
 } from './auth.interfaces';
 
 const baseURL = 'http://localhost:3000/api';
@@ -80,6 +80,7 @@ export class AuthAPIService {
     }
 
     createRole(role: Role): Observable<Role> {
+        console.log(role)
         return this.http.post<Role>(`${baseURL}/roles`, role)
             .pipe(tap(() => this.refreshRoles()));
     }
@@ -187,7 +188,8 @@ export class AuthAPIService {
 
    
 
-    createStaff(staff: Staff): Observable<Staff> {
+    createStaff(staff: any): Observable<Staff> {
+        console.log(staff)
         return this.http.post<Staff>(`${baseURL}/users/${staff.user_id}/staff`, staff)
     }
 
@@ -252,6 +254,16 @@ export class AuthAPIService {
 
     listStaff(organization: OrganizationId): Observable<Staff[]> {
         return this.http.get<Staff[]>(`${baseURL}/organizations/${organization.organization_id}/staff`);
+    }
+
+    updateStaff(staff: any): Observable<Staff> {
+        console.log(staff)
+        return this.http.patch<Staff>(`${baseURL}/organizations/${staff.organization_id}/staff/${staff.staff_id}`, staff);
+        
+    }
+
+    deleteStaff(staff: Staff): Observable<Staff> {
+        return this.http.delete<Staff>(`${baseURL}/organizations/${staff.organization_id}/staff/${staff.staff_id}`)
     }
 
     listLicense(organization: OrganizationId): Observable<License[]> {

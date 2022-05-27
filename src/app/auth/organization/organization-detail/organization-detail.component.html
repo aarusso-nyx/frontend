@@ -5,16 +5,29 @@
     <mat-tab-group>
         <mat-tab label="Detalhes"></mat-tab>
         <mat-tab label="Staff">
-            <p>Lista de Staff desse organization</p>
-            <p>Cada Item User tem botão de aceitar/rejeitar se solicitado</p>
-            <p>e renovar / revogar se já aceito</p>
             <mat-list>
                 <mat-list-item *ngFor="let s of (staff$ | async)">
-                    {{ s | json}}
-
-                    <!-- <button mat-icon-button (click)="dropStaff(s)">
-                        <mat-icon>delete</mat-icon>
-                    </button> -->
+                    <mat-icon mat-list-icon>folder</mat-icon>
+                    <span mat-line>{{ s.user_name }}</span>
+                    <span mat-line>{{ s.user_email }}</span>
+                    <div *ngIf="s.accepted_at === null; then accept else renew "></div>
+                    <ng-template #accept>
+                        <button (click)="acceptStaff(s)">
+                            accept
+                        </button>
+                        <button (click)="dropStaff(s)">
+                            drop
+                        </button>
+                    </ng-template>
+                    <ng-template #renew>
+                        <button (click)="renewStaff(s)">
+                            renew
+                        </button>
+                        <button (click)="revokeStaff(s)">
+                            revoke
+                        </button>
+                    </ng-template>
+                    <mat-divider></mat-divider>
                 </mat-list-item>
             </mat-list>
         </mat-tab>

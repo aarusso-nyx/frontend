@@ -71,7 +71,11 @@ export interface Organization extends OrganizationId {
     organization_name: string;
 };
 
-export interface Staff extends OrganizationId{
+export interface StaffReq extends OrganizationId, UserId {
+
+}
+
+export interface Staff extends OrganizationId, UserData{
     staff_id?: number;
     user_id?: number;
     starts_at?: Date;
