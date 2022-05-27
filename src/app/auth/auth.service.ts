@@ -185,6 +185,8 @@ export class AuthAPIService {
         return this.http.delete<Endpoint>(`${baseURL}/users/${id.user_id}/endpoints/${id.endpoint_id}`)
     }
 
+   
+
     createStaff(staff: Staff): Observable<Staff> {
         return this.http.post<Staff>(`${baseURL}/users/${staff.user_id}/staff`, staff)
     }
@@ -246,5 +248,13 @@ export class AuthAPIService {
 
     updateAssignment(assignment: Assignment): Observable<Assignment> {
         return this.http.patch<Assignment>(`${baseURL}/organizations/${assignment.organization_id}/assignments/${assignment.assign_id}`, assignment)
+    }
+
+    listStaff(organization: OrganizationId): Observable<Staff[]> {
+        return this.http.get<Staff[]>(`${baseURL}/organizations/${organization.organization_id}/staff`);
+    }
+
+    listLicense(organization: OrganizationId): Observable<License[]> {
+        return this.http.get<License[]>(`${baseURL}/organizations/${organization.organization_id}/licenses`);
     }
 }

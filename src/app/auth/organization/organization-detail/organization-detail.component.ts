@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthAPIService } from '../../auth.service';
-import { Assignment, Organization, OrganizationId, Role, User } from '../../auth.interfaces';
+import { App, Assignment, License, Organization, OrganizationId, Role, Staff, User } from '../../auth.interfaces';
 
 
 @Component({
@@ -14,10 +14,12 @@ export class OrganizationDetailComponent implements OnInit {
   // Observable para o modelo que existe no DB 
   id: OrganizationId = { organization_id: 0 };
   organization$?: Observable<Organization>;
-
+  staff$?: Observable<Staff[]>;
   assignments$?: Observable<Assignment[]>;
+  licenses$?: Observable<License[]>;
 
   users$?: Observable<User[]> = this.auth.users$;
+  apps$?: Observable<App[]> = this.auth.apps$;
   roles$?: Observable<Role[]> = this.auth.roles$;
 
   // O modelo no formulário que existe só aqui no frontend
@@ -57,6 +59,9 @@ export class OrganizationDetailComponent implements OnInit {
       this.organization$ = this.auth.getOrganization(this.id);
        this.refresh();
        this.refreshAss();
+
+       this.staff$ = this.auth.listStaff(this.id) 
+       this.licenses$ = this.auth.listLicense(this.id)
     });
   }
 

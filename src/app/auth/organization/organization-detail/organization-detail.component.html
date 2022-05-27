@@ -8,6 +8,15 @@
             <p>Lista de Staff desse organization</p>
             <p>Cada Item User tem botão de aceitar/rejeitar se solicitado</p>
             <p>e renovar / revogar se já aceito</p>
+            <mat-list>
+                <mat-list-item *ngFor="let s of (staff$ | async)">
+                    {{ s | json}}
+
+                    <!-- <button mat-icon-button (click)="dropStaff(s)">
+                        <mat-icon>delete</mat-icon>
+                    </button> -->
+                </mat-list-item>
+            </mat-list>
         </mat-tab>
         <mat-tab label="Assigns">
 
@@ -15,7 +24,7 @@
                 <mat-card-header>
                     <h2>Assignments:</h2>
                 </mat-card-header>
-        
+
                 <mat-card-content>
                     <form [formGroup]="assign">
                         <mat-card fxLayout="column">
@@ -23,50 +32,52 @@
                                 <mat-form-field appearance="fill">
                                     <mat-label>Pessoas</mat-label>
                                     <mat-select formControlName="user_id">
-                                        <mat-option *ngFor="let e of (users$ | async)" [value]="e.user_id">{{ e.user_name }}</mat-option>
+                                        <mat-option *ngFor="let e of (users$ | async)" [value]="e.user_id">{{
+                                            e.user_name }}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
-                 
+
                                 <mat-form-field appearance="fill">
                                     <mat-label>Roles</mat-label>
                                     <mat-select formControlName="role_id">
-                                        <mat-option *ngFor="let e of (roles$ | async)" [value]="e.role_id">{{ e.role_desc }}</mat-option>
+                                        <mat-option *ngFor="let e of (roles$ | async)" [value]="e.role_id">{{
+                                            e.role_desc }}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
-        
+
                                 <button mat-raised-button color="primary" (click)="saveAssign(assign.value)">
                                     <mat-icon>save</mat-icon>
                                 </button>
                             </div>
                             <div fxFlex fxLayout="row" fxLayoutAlign="space-between">
-                           
+
                                 <mat-form-field appearance="fill">
                                     <mat-label>Start</mat-label>
                                     <input matInput [matDatepicker]="starts" formControlName="starts_at">
                                     <mat-hint>MM/DD/YYYY</mat-hint>
                                     <mat-datepicker-toggle matSuffix [for]="starts"></mat-datepicker-toggle>
                                     <mat-datepicker #starts></mat-datepicker>
-                                  </mat-form-field>
-        
+                                </mat-form-field>
+
                                 <mat-form-field appearance="fill">
                                     <mat-label>Expires</mat-label>
                                     <input matInput [matDatepicker]="expires" formControlName="expires_at">
                                     <mat-hint>MM/DD/YYYY</mat-hint>
                                     <mat-datepicker-toggle matSuffix [for]="expires"></mat-datepicker-toggle>
                                     <mat-datepicker #expires></mat-datepicker>
-                                  </mat-form-field>
-        
+                                </mat-form-field>
+
                                 <mat-form-field appearance="fill">
                                     <mat-label>Revoked At</mat-label>
                                     <input matInput [matDatepicker]="revoke" formControlName="revoked_at">
                                     <mat-hint>MM/DD/YYYY</mat-hint>
                                     <mat-datepicker-toggle matSuffix [for]="revoke"></mat-datepicker-toggle>
                                     <mat-datepicker #revoke></mat-datepicker>
-                                  </mat-form-field>
+                                </mat-form-field>
                             </div>
                         </mat-card>
                     </form>
-        
+
                     <mat-card>
                         <mat-list>
                             <mat-list-item *ngFor="let a of (assignments$ | async)">
@@ -75,11 +86,11 @@
                                     <h4 mat-line>{{ a.user_name }}</h4>
                                     <p mat-line>{{ a.role_desc }}</p>
                                 </div>
-                                
+
                                 <button mat-icon-button (click)="delAssign(a)">
                                     <mat-icon>delete</mat-icon>
                                 </button>
-                                
+
                                 <button mat-icon-button (click)="editAssign(a)">
                                     <mat-icon>edit</mat-icon>
                                 </button>
@@ -92,9 +103,28 @@
         </mat-tab>
 
         <mat-tab label="Licenses">
-            Select com os Apps disponíveis e o botão para solicitar licença desse org, dessa entity para esse app
-            
-            <p>Lista de Licenses desse organization</p>
+            <mat-form-field>
+                <mat-label>App</mat-label>
+                <mat-select #app>
+                    <mat-label>Apps</mat-label>
+                    <mat-option *ngFor="let app of (apps$|async)">
+                        {{ app.app_name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button mat-raised-button color="primary">
+                <mat-icon>save</mat-icon>
+                Solicitar
+            </button>
+            <mat-list>
+                <mat-list-item *ngFor="let l of (licenses$ | async)">
+                    {{ l | json}}
+
+                    <!-- <button mat-icon-button (click)="dropStaff(s)">
+                        <mat-icon>delete</mat-icon>
+                    </button> -->
+                </mat-list-item>
+            </mat-list>
         </mat-tab>
     </mat-tab-group>
 
@@ -104,7 +134,7 @@
                 <mat-form-field>
                     <input matInput type="text" placeholder="Nome da Entidade" formControlName="organization_name">
                 </mat-form-field>
-            </form> 
+            </form>
         </mat-card-content>
 
         <mat-card-actions>
