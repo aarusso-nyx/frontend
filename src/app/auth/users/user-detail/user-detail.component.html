@@ -30,10 +30,17 @@
         </form>
     </mat-tab>
     <mat-tab label="Endpoints"> 
-        <input #endpoint type="text" placeholder="Endpoints">
-        <button (click)="createEndpoint(endpoint.value)">
-            <mat-icon>add</mat-icon>
-        </button>
+        <mat-card-content>
+            <form>
+                <mat-form-field>
+                    <input matInput [formControl]="endpointFormControl" type="text" placeholder="Endpoints">
+                </mat-form-field>
+                <button mat-raised-button color="primary" (click)="createEndpoint(endpointFormControl.value)">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </form>
+        </mat-card-content>
+
         <mat-list>
             <mat-list-item *ngFor="let ep of user?.endpoints" class="container">
                <!-- <span mat-line> {{ user?.user_name }} </span> -->

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthAPIService } from '../../auth.service';
@@ -30,6 +30,8 @@ export class UserDetailComponent implements OnInit {
     user_email: ['', Validators.required],
     active: ['', Validators.required],
   });
+
+  endpointFormControl = new FormControl('', Validators.required );
 
   constructor(private auth: AuthAPIService,
     private fb: FormBuilder,

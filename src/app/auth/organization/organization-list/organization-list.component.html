@@ -2,9 +2,21 @@
     <mat-icon>add</mat-icon>
 </button>
 
-<div *ngFor="let organization of (organizations$ | async)" class="container">
+<!-- <div *ngFor="let organization of (organizations$ | async)" class="container">
     <a [routerLink]="[organization.organization_id]"> {{organization.organization_name}} </a>
     <button (click)="deleteOrganization(organization)">
         <mat-icon>delete</mat-icon>
     </button>
-</div>
+</div> -->
+
+<mat-list>
+    <mat-list-item *ngFor="let organization of (organizations$ | async)" class="container">
+        <span mat-line> {{organization.organization_name}}  </span>
+        <button mat-icon-button (click)="deleteOrganization(organization)">
+            <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button [routerLink]="[organization.organization_id]">
+            <mat-icon>edit</mat-icon>
+        </button>
+    </mat-list-item>
+</mat-list>

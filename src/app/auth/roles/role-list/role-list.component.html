@@ -2,9 +2,21 @@
     <mat-icon>add</mat-icon>
 </button>
 
-<div *ngFor="let role of (roles$ | async)" class="container">
+<!-- <div *ngFor="let role of (roles$ | async)" class="container">
     <a [routerLink]="[role.role_id]"> {{role.role_desc}} </a>
     <button (click)="deleteRole(role)">
         <mat-icon>delete</mat-icon>
     </button>
-</div>
+</div> -->
+
+<mat-list>
+    <mat-list-item *ngFor="let role of (roles$ | async)" class="container">
+        <span mat-line> {{role.role_desc}}</span>
+        <button mat-icon-button (click)="deleteRole(role)">
+            <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button [routerLink]="[role.role_id]">
+            <mat-icon>edit</mat-icon>
+        </button>
+    </mat-list-item>
+</mat-list>

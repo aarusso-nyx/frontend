@@ -84,7 +84,7 @@ export interface Staff extends OrganizationId, UserData{
     accepted_at?: Date;
 };
 
-export interface License extends OrganizationId, EntityId, AppId{
+export interface License extends Organization, Entity, App{
     license_id: number,
     starts_at: Date,
     expires_at: Date,

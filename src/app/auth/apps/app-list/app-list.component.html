@@ -2,7 +2,7 @@
     <mat-icon>add</mat-icon>
 </button>
 
-<mat-list>
+<!-- <mat-list>
     <mat-list-item *ngFor="let app of (apps$ | async)" class="container">
         <a [routerLink]="[app.app_id]"> {{app.app_name}} </a>
         <button mat-icon-button (click)="deleteApp(app)">
@@ -10,4 +10,16 @@
         </button>
     </mat-list-item>
 
+</mat-list> -->
+
+<mat-list>
+    <mat-list-item *ngFor="let app of (apps$ | async)" class="container">
+        <span mat-line> {{app.app_name}} </span>
+        <button mat-icon-button (click)="deleteApp(app)">
+            <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button [routerLink]="[app.app_id]">
+            <mat-icon>edit</mat-icon>
+        </button>
+    </mat-list-item>
 </mat-list>
