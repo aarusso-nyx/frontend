@@ -2,9 +2,11 @@
     <mat-icon>add</mat-icon>
 </button>
 
-<div *ngFor="let user of (users$ | async)" class="container">
-    <a [routerLink]="[user.user_id]"> {{user.user_name}} </a>
-    <button (click)="deleteUser(user)">
-        <mat-icon>delete</mat-icon>
-    </button>
-</div>
+<mat-list>
+    <mat-list-item *ngFor="let user of  (users$ | async)" class="container">
+        <a [routerLink]="[user.user_id]"> {{user.user_name}} </a>
+        <button (click)="deleteUser(user)">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </mat-list-item>
+</mat-list>
